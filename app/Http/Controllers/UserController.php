@@ -38,7 +38,7 @@ class UserController extends Controller
                 return response()->json([
                     'status' => false,
                     'message' => 'Validation error',
-                    'errorr' => $validator->errors()
+                    'errors' => $validator->errors()
                 ], 422);
             }
             $user = User::create([
@@ -83,7 +83,7 @@ class UserController extends Controller
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string',
                 'email' => 'required|email|unique:users,email,' . $id,
-                'password' => 'required|min:6'
+                // 'password' => 'min:6'
             ]);
 
             if ($validator->fails()) {
@@ -97,13 +97,15 @@ class UserController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
             ];
+            $user = User::find($id);
 
             //jika user mengisi password
             if ($request->filled('password')) {
                 $data['password'] = $request->password;
+            } else{
+                $data['password'] = $user->password;
             }
 
-            $user = User::find($id);
             $user->update($data);
             return response()->json([
                 'status' => true,

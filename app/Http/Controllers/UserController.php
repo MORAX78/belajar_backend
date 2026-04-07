@@ -102,7 +102,7 @@ class UserController extends Controller
             //jika user mengisi password
             if ($request->filled('password')) {
                 $data['password'] = $request->password;
-            } else{
+            } else {
                 $data['password'] = $user->password;
             }
 

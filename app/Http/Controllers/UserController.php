@@ -14,7 +14,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::with('role')->get();
         return response()->json([
             'status' => true,
             'message' => 'Get user success',
@@ -45,6 +45,7 @@ class UserController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => $request->password,
+                'role_id' => $request->role_id
             ]);
 
             return response()->json([
@@ -96,6 +97,7 @@ class UserController extends Controller
             $data = [
                 'name' => $request->name,
                 'email' => $request->email,
+                'role_id' => $request->role_id,
             ];
             $user = User::find($id);
 
